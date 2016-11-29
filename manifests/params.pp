@@ -19,10 +19,17 @@ class bitbucket::params {
         fail("${::operatingsystem} ${::operatingsystemmajrelease} not supported")
       }
     } /Debian/: {
-      $json_packages           = [ 'rubygem-json', 'ruby-json' ]
-      $service_file_location   = '/etc/init.d/bitbucket'
-      $service_file_template   = 'bitbucket/bitbucket.initscript.debian.erb'
-      $service_lockfile        = '/var/lock/bitbucket'
+      if $::operatingsystem == 'Ubuntu' and $::operatingsystemmajrelease >= '15.10'{
+        $json_packages           = 'rubygem-json'
+        $service_file_location   = '/usr/lib/systemd/system/bitbucket.service'
+        $service_file_template   = 'bitbucket/bitbucket.service.erb'
+        $service_lockfile        = '/var/lock/subsys/bitbucket'
+      } elsif {
+        $json_packages           = [ 'rubygem-json', 'ruby-json' ]
+        $service_file_location   = '/etc/init.d/bitbucket'
+        $service_file_template   = 'bitbucket/bitbucket.initscript.debian.erb'
+        $service_lockfile        = '/var/lock/bitbucket'
+      }  
     } default: {
       fail("${::operatingsystem} ${::operatingsystemmajrelease} not supported")
     }
