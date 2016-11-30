@@ -21,7 +21,7 @@ class bitbucket::params {
     } /Debian/: {
       if $::operatingsystem == 'Ubuntu' and $::operatingsystemmajrelease >= '15.10'{
         $json_packages           = 'rubygem-json'
-        $service_file_location   = '/usr/lib/systemd/system/bitbucket.service'
+        $service_file_location   = '/etc/systemd/system/bitbucket.service'
         $service_file_template   = 'bitbucket/bitbucket.service.erb'
         $service_lockfile        = '/var/lock/subsys/bitbucket'
       } else {
