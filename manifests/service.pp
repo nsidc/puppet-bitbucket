@@ -32,13 +32,18 @@ class bitbucket::service  (
         subscribe   => File[$service_file_location],
         before      => Service['bitbucket'],
       }
-    }
-
-    service { 'bitbucket':
+      service { 'bitbucket':
+      provider => systemd,
       ensure  => $service_ensure,
       enable  => $service_enable,
       require => File[$service_file_location],
+      }
+    } else {
+      service { 'bitbucket':
+        ensure  => $service_ensure,
+        enable  => $service_enable,
+        require => File[$service_file_location],
+      }
     }
   }
-
 }
