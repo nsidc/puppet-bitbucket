@@ -36,6 +36,17 @@ class bitbucket::config(
   } else {
     $server_xml = "${bitbucket::webappdir}/conf/server.xml"
   }
+  file { "${bitbucket::webappdir}/bin/set-java-home.sh":
+    content => template('bitbucket/set-java-home.sh.erb'),
+    mode    => '0750',
+    require => Class['bitbucket::install'],
+    } ->
+
+  file { "${bitbucket::webappdir}/bin/set-bitbucket-home.sh":
+    content => template('bitbucket/set-bitbucket-home.sh.erb'),
+    mode    => '0750',
+    require => Class['bitbucket::install'],
+    } ->  
 
   file { "${bitbucket::webappdir}/bin/setenv.sh":
     content => template('bitbucket/setenv.sh.erb'),
